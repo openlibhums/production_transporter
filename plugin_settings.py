@@ -49,10 +49,3 @@ def install():
 
 def hook_registry():
     prod_transporter.hook_registry()
-
-
-def register_for_events():
-    events_logic.Events.register_for_event(
-        events_logic.Events.ON_ARTICLE_ACCEPTED,
-        utils.on_article_accepted,
-    )

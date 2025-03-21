@@ -30,6 +30,7 @@
                                 <th>Projected Issue
                                 <th>Send to FTP</th>
                                 <th>Download</th>
+                                <th>Files</th>
                                 <th>View</th>
                             </tr>
                             </thead>
@@ -46,11 +47,14 @@
                                         {{ article.projected_issue.display_title }}{% else %}None{% endif %}</td>
                                     <td><form method="POST">{% csrf_token %}<button class="button" name="ftp" value="{{ article.pk }}"><span class="fa fa-upload"></span></button></form></td>
                                     <td><form method="POST">{% csrf_token %}<button class="button" name="download" value="{{ article.pk }}"><span class="fa fa-download"></span></button></form></td>
+                                    <td><a href="{% url 'production_transporter_jump_url' article.pk %}" class="small success button">Edit Transport Files</a></td>
                                     <td><a href="{% url 'manage_archive_article' article.pk %}" class="small button">Article Details</a></td>
                                 </tr>
                                 {% empty %}
                                 <tr>
-                                    <td>No articles in this stage</td>
+                                  <td colspan="11">
+                                    No entries.
+                                  </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -61,3 +65,7 @@
         </div>
     </div>
 {% endblock body %}
+
+{% block js %}
+  {% include "elements/datatables.html" with target="#articles_in_production_transporter" sort="2" order="desc" %}
+{% endblock js %}

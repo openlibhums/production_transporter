@@ -1,24 +1,17 @@
+import os
+
 from django.contrib import messages
 
 from janeway_ftp import ftp, helpers as deposit_helpers
 
 from utils import setting_handler, notify_helpers, render_template
-from core import models
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
 
 def copy_article_files(article, temp_deposit_folder):
-    files_to_copy = []
-    latest_manuscript_file = article.manuscript_files.all().latest(
-        'date_uploaded'
-    )
-    files_to_copy.append(latest_manuscript_file)
-    for file in article.data_figure_files.all():
-        files_to_copy.append(file)
-
-    for file in files_to_copy:
+    for file in article.transportfiles.files.all():
         try:
             deposit_helpers.copy_file(
                 article,
@@ -27,6 +20,20 @@ def copy_article_files(article, temp_deposit_folder):
             )
         except FileNotFoundError:
             pass
+
+        # Rename the file.
+        uuid_filename_path = os.path.join(
+            temp_deposit_folder,
+            file.uuid_filename,
+        )
+        original_filename_path = os.path.join(
+            temp_deposit_folder,
+            file.original_filename,
+        )
+        os.rename(
+            uuid_filename_path,
+            original_filename_path,
+        )
 
 
 def get_ftp_details(journal):
@@ -127,6 +134,10 @@ def on_article_accepted(**kwargs):
         logger.error(e)
 
     # Notify production email address
+    send_notification(request, article)
+
+
+def send_notification(request, article):
     notification_context = {
         'journal': article.journal,
         'article': article,

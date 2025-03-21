@@ -103,5 +103,20 @@
     "value": {
       "default": ""
     }
+  },
+  {
+    "group": {
+      "name": "plugin"
+    },
+    "setting": {
+      "description": "Description of files required to be selected by the editor.",
+      "is_translatable": false,
+      "name": "transport_file_selection_text",
+      "pretty_name": "File Selection Text",
+      "type": "rich-text"
+    },
+    "value": {
+      "default": "<p>Below you can select the files for this article that will be transported over FTP to production staff.</p>"
+    }
   }
 ]
