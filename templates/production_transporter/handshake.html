@@ -52,7 +52,9 @@
                                 </tr>
                                 {% empty %}
                                 <tr>
-                                    <td>No articles in this stage</td>
+                                  <td colspan="11">
+                                    No entries.
+                                  </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -63,3 +65,7 @@
         </div>
     </div>
 {% endblock body %}
+
+{% block js %}
+  {% include "elements/datatables.html" with target="#articles_in_production_transporter" sort="2" order="desc" %}
+{% endblock js %}

@@ -4,9 +4,7 @@ __license__ = "AGPL v3"
 __maintainer__ = "Open Library of Humanities, Birkbeck, UoL"
 
 from django.contrib import admin
-from django.template.defaultfilters import truncatewords_html
 
-from plugins.typesetting import admin_utils as typesetting_admin_utils
 from plugins.production_transporter import models
 from utils import admin_utils as utils_admin_utils
 
